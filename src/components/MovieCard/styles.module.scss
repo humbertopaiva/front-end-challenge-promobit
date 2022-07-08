@@ -1,0 +1,18 @@
+.content {
+	width: 176px;
+	display: flex;
+	flex-direction: column;
+}
+
+.movie_image {
+	max-height: 200px;
+
+	img {
+		width: 100%;
+		object-fit: cover;
+	}
+}
+
+.movie_infos {
+	margin-top: 2rem;
+}

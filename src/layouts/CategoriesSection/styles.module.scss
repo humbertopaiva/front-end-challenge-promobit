@@ -1,19 +1,19 @@
 .content {
 	min-height: 200px;
 	margin: 0 auto;
-	width: 80%;
+	width: 90%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
+	align-items: left;
 	color: #fff;
-	padding: 85px 0;
+	padding: 40px 0;
 
 	h2 {
-		font-size: 48px;
-		line-height: 56px;
+		font-size: 24px;
+		line-height: 28px;
 		font-weight: 700;
-		text-align: center;
+		text-align: left;
 		margin-bottom: 40px;
 	}
 
@@ -22,5 +22,17 @@
 		font-size: 1rem;
 		font-weight: 700;
 		margin-bottom: 1rem;
+	}
+
+	@media (min-width: 600px) {
+		width: 80%;
+		padding: 85px 0;
+		align-items: center;
+
+		h2 {
+			font-size: 48px;
+			line-height: 56px;
+			text-align: center;
+		}
 	}
 }

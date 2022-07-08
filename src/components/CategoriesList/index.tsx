@@ -1,20 +1,6 @@
 import CategoryTag from "../CategoryTag";
 import styles from "./styles.module.scss";
 
-const categoriesArray = [
-	"Acao",
-	"Aventura",
-	"Animacao",
-	"Comedia",
-	"Crime",
-	"Documentario",
-	"Drama",
-	"Familia",
-	"Fantasia",
-	"Terror",
-	"Misterio",
-];
-
 type CategoriesList = {
 	categories: Array<string>;
 };

@@ -1,15 +1,27 @@
 import styles from "./styles.module.scss";
+import { IoMdCloseCircle } from "react-icons/io";
+import { useState } from "react";
 
 type CategoryTagProps = {
 	category: string;
-	selected?: boolean;
 };
 
-const CategoryTag = ({ category, selected = false }: CategoryTagProps) => {
+const CategoryTag = ({ category }: CategoryTagProps) => {
+	const [selected, setSelected] = useState(false);
+	const handleClick = () => {
+		setSelected((e) => !e);
+	};
 	return (
-		<article className={styles.content}>
+		<article
+			className={`${styles.content} ${selected && styles["selected"]}`}
+			onClick={handleClick}
+		>
 			<h3>{category}</h3>
-			{selected && <button></button>}
+			{selected && (
+				<button>
+					<IoMdCloseCircle />
+				</button>
+			)}
 		</article>
 	);
 };
