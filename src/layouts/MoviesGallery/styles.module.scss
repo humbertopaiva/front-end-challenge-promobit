@@ -1,0 +1,11 @@
+.content {
+	margin: 2rem 0;
+
+	ul {
+		width: 100%;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 176px);
+		justify-content: center;
+		gap: 32px;
+	}
+}

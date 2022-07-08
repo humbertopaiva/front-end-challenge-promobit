@@ -1,15 +1,17 @@
 import type { NextPage } from "next";
-
-import CategoriesSection from "../layouts/CategoriesSection";
+import { MoviesDBProvider } from "../hooks/MoviesDB";
+import GenresSection from "../layouts/GenresSection";
 import Header from "../layouts/Header";
 import MoviesGallery from "../layouts/MoviesGallery";
 
 const Home: NextPage = () => {
 	return (
 		<div>
-			<Header />
-			<CategoriesSection />
-			<MoviesGallery />
+			<MoviesDBProvider>
+				<Header />
+				<GenresSection />
+				<MoviesGallery />
+			</MoviesDBProvider>
 		</div>
 	);
 };

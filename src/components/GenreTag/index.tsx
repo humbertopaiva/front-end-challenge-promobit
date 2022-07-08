@@ -6,7 +6,7 @@ type CategoryTagProps = {
 	category: string;
 };
 
-const CategoryTag = ({ category }: CategoryTagProps) => {
+const GenreTag = ({ category }: CategoryTagProps) => {
 	const [selected, setSelected] = useState(false);
 	const handleClick = () => {
 		setSelected((e) => !e);
@@ -26,4 +26,4 @@ const CategoryTag = ({ category }: CategoryTagProps) => {
 	);
 };
 
-export default CategoryTag;
+export default GenreTag;

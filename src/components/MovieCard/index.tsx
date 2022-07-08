@@ -1,13 +1,25 @@
 import styles from "./styles.module.scss";
 
-const MovieCard = () => {
+type MovieCardProps = {
+	src: string;
+	title: string;
+	releaseDate: Date;
+};
+
+const MovieCard = ({ title, src, releaseDate }: MovieCardProps) => {
+	const day = "";
+	const month = "";
+	const year = "";
+
 	return (
 		<article className={styles.content}>
 			<div className={styles.movie_image}>
-				<img src="https://i.pinimg.com/originals/bc/d5/c9/bcd5c9519581acc60bd60a429ab0c88f.jpg" />
+				<img
+					src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${src}`}
+				/>
 			</div>
 			<div className={styles.movie_infos}>
-				<h3>Título do filme</h3>
+				<h3>{title}</h3>
 				<p>18 nov 2021</p>
 			</div>
 		</article>

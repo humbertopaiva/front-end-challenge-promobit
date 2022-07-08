@@ -1,4 +1,4 @@
-import CategoriesList from "../../components/CategoriesList";
+import CategoriesList from "../../components/GenresList";
 import Wraper from "../../components/Wraper";
 import styles from "./styles.module.scss";
 
@@ -16,7 +16,7 @@ const categoriesArray = [
 	"Misterio",
 ];
 
-const CategoriesSection = () => {
+const GenresSection = () => {
 	return (
 		<Wraper bgColor="primary">
 			<section className={styles.content}>
@@ -31,4 +31,4 @@ const CategoriesSection = () => {
 	);
 };
 
-export default CategoriesSection;
+export default GenresSection;
