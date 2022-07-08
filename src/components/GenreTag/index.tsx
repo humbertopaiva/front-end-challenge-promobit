@@ -1,22 +1,33 @@
 import styles from "./styles.module.scss";
 import { IoMdCloseCircle } from "react-icons/io";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMoviesDB } from "../../hooks/MoviesDB";
 
-type CategoryTagProps = {
-	category: string;
+type GenreTagProps = {
+	name: string;
+	id: number;
 };
 
-const GenreTag = ({ category }: CategoryTagProps) => {
+const GenreTag = ({ name, id }: GenreTagProps) => {
 	const [selected, setSelected] = useState(false);
+	const { selectedGenres, setSelectedGenres } = useMoviesDB();
 	const handleClick = () => {
 		setSelected((e) => !e);
+
+		if (!selected) setSelectedGenres([...selectedGenres, id]);
+		else setSelectedGenres(selectedGenres.filter((genre) => genre !== id));
 	};
+
+	useEffect(() => {
+		console.log("Genero inseridos:", selectedGenres);
+	}, [selectedGenres]);
+
 	return (
 		<article
 			className={`${styles.content} ${selected && styles["selected"]}`}
 			onClick={handleClick}
 		>
-			<h3>{category}</h3>
+			<h3>{name}</h3>
 			{selected && (
 				<button>
 					<IoMdCloseCircle />

@@ -12,7 +12,7 @@ const GenresList = () => {
 		<ul className={styles.content}>
 			{genres.map((genre) => (
 				<li key={genre.id}>
-					<CategoryTag category={genre.name} />
+					<CategoryTag name={genre.name} id={genre.id} />
 				</li>
 			))}
 		</ul>

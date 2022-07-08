@@ -9,7 +9,7 @@
 	height: 264px;
 	overflow: hidden;
 	border-radius: 4px;
-	object-position: center;
+	object-fit: cover;
 
 	&:hover {
 		box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
@@ -18,7 +18,7 @@
 	img {
 		height: 100%;
 		width: 100%;
-		object-fit: cover;
+
 		position: relative;
 		transition: all 0.5s ease;
 

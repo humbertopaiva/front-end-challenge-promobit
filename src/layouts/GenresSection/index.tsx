@@ -1,20 +1,6 @@
-import CategoriesList from "../../components/GenresList";
+import GenresList from "../../components/GenresList";
 import Wraper from "../../components/Wraper";
 import styles from "./styles.module.scss";
-
-const categoriesArray = [
-	"Acao",
-	"Aventura",
-	"Animacao",
-	"Comedia",
-	"Crime",
-	"Documentario",
-	"Drama",
-	"Familia",
-	"Fantasia",
-	"Terror",
-	"Misterio",
-];
 
 const GenresSection = () => {
 	return (
@@ -25,7 +11,7 @@ const GenresSection = () => {
 					já.
 				</h2>
 				<p>Filtre por: </p>
-				<CategoriesList categories={categoriesArray} />
+				<GenresList />
 			</section>
 		</Wraper>
 	);
