@@ -1,0 +1,11 @@
+.content {
+	background-color: var(--color-bg);
+	padding: 8px 16px;
+	color: var(--color-text-dark);
+	border-radius: 4px;
+	display: flex;
+
+	h3 {
+		font-size: 16px;
+	}
+}
