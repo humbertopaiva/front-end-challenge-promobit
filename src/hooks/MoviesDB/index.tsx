@@ -25,6 +25,9 @@ type MoviesDBContextProps = {
 	genres: Genre[];
 	selectedGenres: number[];
 	setSelectedGenres: (genres: number[]) => void;
+	currentPage: number;
+	setCurrentPage: (page: number) => void;
+	totalPages: number;
 };
 
 const initalValues = {
@@ -32,6 +35,9 @@ const initalValues = {
 	genres: [],
 	selectedGenres: [],
 	setSelectedGenres: () => null,
+	currentPage: 1,
+	setCurrentPage: () => null,
+	totalPages: 0,
 };
 
 const API_KEY = "08111f57e924b7bea8034f62b2326dfb";
@@ -43,7 +49,8 @@ export const MoviesDBProvider = ({ children }: { children: ReactNode }) => {
 	const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
 	const [genres, setGenres] = useState<Genre[]>([]);
 	const [selectedGenres, setSelectedGenres] = useState<number[]>([]);
-	const [moviesByGenres, setMoviesByGenres] = useState<Movie[]>([]);
+	const [currentPage, setCurrentPage] = useState<number>(1);
+	const [totalPages, setTotalPages] = useState<number>(0);
 
 	useEffect(() => {
 		axios(
@@ -54,20 +61,25 @@ export const MoviesDBProvider = ({ children }: { children: ReactNode }) => {
 		});
 
 		axios(
-			`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pt-BR&page=1`
-		).then((res) => setPopularMovies(res.data.results));
-	}, []);
-
-	useEffect(() => {
-		const newMoviesList = popularMovies.filter((movie) =>
-			movie.genre_ids.filter((genre) => selectedGenres.includes(genre))
-		);
-		console.log(newMoviesList);
-	}, [selectedGenres]);
+			`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pt-BR&page=${currentPage}`
+		).then((res) => {
+			setPopularMovies(res.data.results);
+			setTotalPages(res.data.total_pages);
+			console.log(res.data);
+		});
+	}, [currentPage]);
 
 	return (
 		<MoviesDBContext.Provider
-			value={{ popularMovies, genres, selectedGenres, setSelectedGenres }}
+			value={{
+				popularMovies,
+				genres,
+				selectedGenres,
+				setSelectedGenres,
+				setCurrentPage,
+				totalPages,
+				currentPage,
+			}}
 		>
 			{children}
 		</MoviesDBContext.Provider>

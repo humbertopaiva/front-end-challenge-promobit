@@ -11,16 +11,13 @@ type GenreTagProps = {
 const GenreTag = ({ name, id }: GenreTagProps) => {
 	const [selected, setSelected] = useState(false);
 	const { selectedGenres, setSelectedGenres } = useMoviesDB();
+
 	const handleClick = () => {
 		setSelected((e) => !e);
 
 		if (!selected) setSelectedGenres([...selectedGenres, id]);
 		else setSelectedGenres(selectedGenres.filter((genre) => genre !== id));
 	};
-
-	useEffect(() => {
-		console.log("Genero inseridos:", selectedGenres);
-	}, [selectedGenres]);
 
 	return (
 		<article

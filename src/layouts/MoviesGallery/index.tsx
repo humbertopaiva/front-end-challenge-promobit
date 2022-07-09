@@ -20,24 +20,11 @@ const MoviesGallery = () => {
 	const [emptySearch, setEmptySearch] = useState(false);
 
 	useEffect(() => {
-		console.log(selectedGenres);
-
-		// const movies = popularMovies.filter((movie) => {
-		// 	const hasMovie = movie.genre_ids.filter((genre) =>
-		// 		selectedGenres.includes(genre)
-		// 	);
-		// 	if (hasMovie.length > 0) return movie;
-		// });
-
-		// if (movies.length > 0) setFilteredMovies(movies);
-		// else setFilteredMovies(popularMovies);
-
 		const movies = popularMovies.filter((movie) => {
 			const hasMovie = movie.genre_ids.map((genre) => {
 				const hasGenre = selectedGenres.includes(genre);
 				return hasGenre;
 			});
-			console.log("OIEEE", hasMovie);
 
 			if (
 				hasMovie.filter((condition) => condition).length ===
