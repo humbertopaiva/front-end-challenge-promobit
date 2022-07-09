@@ -9,3 +9,16 @@
 		gap: 32px;
 	}
 }
+
+.notFound {
+	width: 100%;
+	text-align: center;
+	h2 {
+		margin-bottom: 0.5rem;
+	}
+
+	i {
+		font-size: 46px;
+		color: gray;
+	}
+}
