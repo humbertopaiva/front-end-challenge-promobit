@@ -17,26 +17,36 @@ const MoviesGallery = () => {
 	const [filteredMovies, setFilteredMovies] =
 		useState<Movie[]>(popularMovies);
 
-	const arrayCompare = (first: number[], last: number[]) => {
-		var result = first.filter((item) => {
-			last.indexOf(item) > -1;
-		});
-		return result.length;
-	};
-
 	useEffect(() => {
 		console.log(selectedGenres);
+
+		// const movies = popularMovies.filter((movie) => {
+		// 	const hasMovie = movie.genre_ids.filter((genre) =>
+		// 		selectedGenres.includes(genre)
+		// 	);
+		// 	if (hasMovie.length > 0) return movie;
+		// });
+
+		// if (movies.length > 0) setFilteredMovies(movies);
+		// else setFilteredMovies(popularMovies);
+
 		const movies = popularMovies.filter((movie) => {
-			const genres = [...selectedGenres];
-			return movie.genre_ids.includes(genres.pop()!);
+			const hasMovie = movie.genre_ids.map((genre) => {
+				const hasGenre = selectedGenres.includes(genre);
+				return hasGenre;
+			});
+			console.log("OIEEE", hasMovie);
+
+			if (
+				hasMovie.filter((condition) => condition).length ===
+				selectedGenres.length
+			)
+				return movie;
 		});
 
-		if (selectedGenres.length === 0) setFilteredMovies(popularMovies);
-		else setFilteredMovies([...movies]);
-		// console.log(newMoviesList);
-
-		// console.log("Nova lista", newMoviesList);
-	}, [selectedGenres]);
+		if (movies.length > 0) setFilteredMovies(movies);
+		else setFilteredMovies(popularMovies);
+	}, [selectedGenres, popularMovies]);
 
 	return (
 		<main className={styles.content}>
