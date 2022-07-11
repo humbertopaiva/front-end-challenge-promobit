@@ -4,6 +4,8 @@ import Wraper from "../../components/Wraper";
 import { useMoviesDB } from "../../hooks/MoviesDB";
 import styles from "./styles.module.scss";
 import { TbMovieOff } from "react-icons/tb";
+import Link from "next/link";
+import moviedbApi from "../../services/moviedbApi";
 
 type Movie = {
 	title: string;
@@ -14,7 +16,14 @@ type Movie = {
 };
 
 const MoviesGallery = () => {
-	const { popularMovies, selectedGenres } = useMoviesDB();
+	const {
+		popularMovies,
+		selectedGenres,
+		currentPage,
+		setPopularMovies,
+		setTotalPages,
+	} = useMoviesDB();
+
 	const [filteredMovies, setFilteredMovies] =
 		useState<Movie[]>(popularMovies);
 	const [emptySearch, setEmptySearch] = useState(false);
@@ -42,6 +51,14 @@ const MoviesGallery = () => {
 			setEmptySearch(true);
 	}, [selectedGenres, popularMovies]);
 
+	useEffect(() => {
+		moviedbApi.getMoviesList(currentPage).then((res) => {
+			setPopularMovies(res.data.results);
+			setTotalPages(res.data.total_pages);
+			console.log(res.data);
+		});
+	}, [currentPage]);
+
 	return (
 		<main className={styles.content}>
 			<Wraper>
@@ -49,11 +66,15 @@ const MoviesGallery = () => {
 					{!emptySearch &&
 						filteredMovies.map((movie) => (
 							<li key={movie.id}>
-								<MovieCard
-									src={movie.poster_path}
-									releaseDate={movie.release_date}
-									title={movie.title}
-								/>
+								<Link href={`/movies/${movie.id}`}>
+									<a>
+										<MovieCard
+											src={movie.poster_path}
+											releaseDate={movie.release_date}
+											title={movie.title}
+										/>
+									</a>
+								</Link>
 							</li>
 						))}
 				</ul>

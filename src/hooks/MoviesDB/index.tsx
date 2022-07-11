@@ -1,11 +1,4 @@
-import axios from "axios";
-import {
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-	ReactNode,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type Movie = {
 	title: string;
@@ -24,23 +17,27 @@ type MoviesDBContextProps = {
 	popularMovies: Movie[];
 	genres: Genre[];
 	selectedGenres: number[];
-	setSelectedGenres: (genres: number[]) => void;
 	currentPage: number;
-	setCurrentPage: (page: number) => void;
 	totalPages: number;
+	setPopularMovies: (movies: Movie[]) => void;
+	setGenres: (genres: Genre[]) => void;
+	setSelectedGenres: (genres: number[]) => void;
+	setCurrentPage: (page: number) => void;
+	setTotalPages: (number: number) => void;
 };
 
 const initalValues = {
 	popularMovies: [],
+	totalPages: 0,
 	genres: [],
 	selectedGenres: [],
-	setSelectedGenres: () => null,
 	currentPage: 1,
+	setPopularMovies: () => null,
+	setGenres: () => null,
+	setSelectedGenres: () => null,
 	setCurrentPage: () => null,
-	totalPages: 0,
+	setTotalPages: () => null,
 };
-
-const API_KEY = "08111f57e924b7bea8034f62b2326dfb";
 
 export const MoviesDBContext =
 	createContext<MoviesDBContextProps>(initalValues);
@@ -52,33 +49,19 @@ export const MoviesDBProvider = ({ children }: { children: ReactNode }) => {
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [totalPages, setTotalPages] = useState<number>(0);
 
-	useEffect(() => {
-		axios(
-			`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=pt-BR`
-		).then((res) => {
-			console.log("generos", res.data);
-			setGenres(res.data.genres);
-		});
-
-		axios(
-			`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pt-BR&page=${currentPage}`
-		).then((res) => {
-			setPopularMovies(res.data.results);
-			setTotalPages(res.data.total_pages);
-			console.log(res.data);
-		});
-	}, [currentPage]);
-
 	return (
 		<MoviesDBContext.Provider
 			value={{
 				popularMovies,
 				genres,
+				totalPages,
+				currentPage,
+				setPopularMovies,
 				selectedGenres,
 				setSelectedGenres,
 				setCurrentPage,
-				totalPages,
-				currentPage,
+				setTotalPages,
+				setGenres,
 			}}
 		>
 			{children}

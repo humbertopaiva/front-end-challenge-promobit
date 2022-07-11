@@ -1,10 +1,10 @@
 import { useMoviesDB } from "../../hooks/MoviesDB";
-import CategoryTag from "../GenreTag";
+import GenreTag from "../GenreTag";
 import styles from "./styles.module.scss";
 
-type CategoriesList = {
-	categories: Array<string>;
-};
+// type CategoriesList = {
+// 	categories: Array<string>;
+// };
 
 const GenresList = () => {
 	const { genres } = useMoviesDB();
@@ -12,7 +12,7 @@ const GenresList = () => {
 		<ul className={styles.content}>
 			{genres.map((genre) => (
 				<li key={genre.id}>
-					<CategoryTag name={genre.name} id={genre.id} />
+					<GenreTag name={genre.name} id={genre.id} />
 				</li>
 			))}
 		</ul>
