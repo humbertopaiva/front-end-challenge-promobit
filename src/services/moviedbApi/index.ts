@@ -16,33 +16,36 @@ const getMoviesList = (page: number) => {
 	);
 };
 
+const getMovieInfos = (id: string | string[] | undefined) => {
+	return api.get(`movie/${id}?api_key=${API_KEY}&language=pt-BR`);
+};
+
+const getCast = (id: string | string[] | undefined) => {
+	return api.get(`movie/${id}/credits?api_key=${API_KEY}&language=pt-BR`);
+};
+
+const getVideos = (id: string | string[] | undefined) => {
+	return api.get(`movie/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
+};
+
+const getSimilarMovies = (id: string | string[] | undefined) => {
+	return api.get(
+		`movie/${id}/similar?api_key=${API_KEY}&language=pt-BR&page=1`
+	);
+};
+
+const getReleaseDates = (id: string | string[] | undefined) => {
+	return api.get(`movie/${id}/release_dates?api_key=${API_KEY}`);
+};
+
 const moviedbApi = {
 	getGenresList,
 	getMoviesList,
+	getMovieInfos,
+	getCast,
+	getVideos,
+	getSimilarMovies,
+	getReleaseDates,
 };
-
-// const moviedbApi = () => {
-// 	const getGenresList = async (apiKey: string) => {
-// 		const response = await axios(
-// 			`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=pt-BR`
-// 		);
-
-// 		return response;
-// 	};
-
-// 	const getMovieInfos = async ({
-// 		apiKey,
-// 		movieId,
-// 	}: {
-// 		apiKey: string;
-// 		movieId: number;
-// 	}) => {
-// 		const response = await axios(
-// 			`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`
-// 		);
-
-// 		return response;
-// 	};
-// };
 
 export default moviedbApi;

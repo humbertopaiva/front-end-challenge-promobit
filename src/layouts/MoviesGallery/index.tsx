@@ -28,6 +28,8 @@ const MoviesGallery = () => {
 		useState<Movie[]>(popularMovies);
 	const [emptySearch, setEmptySearch] = useState(false);
 
+	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
+
 	useEffect(() => {
 		const movies = popularMovies.filter((movie) => {
 			const hasMovie = movie.genre_ids.map((genre) => {
@@ -50,6 +52,8 @@ const MoviesGallery = () => {
 		if (movies.length === 0 && selectedGenres.length > 0)
 			setEmptySearch(true);
 	}, [selectedGenres, popularMovies]);
+
+	//CARREGA A LISTA DE FILMES NO MODO DEFAULT
 
 	useEffect(() => {
 		moviedbApi.getMoviesList(currentPage).then((res) => {
@@ -79,7 +83,7 @@ const MoviesGallery = () => {
 						))}
 				</ul>
 				{emptySearch && (
-					<div className={styles.notFound}>
+					<li className={styles.notFound}>
 						<i>
 							<TbMovieOff />
 						</i>
@@ -88,7 +92,7 @@ const MoviesGallery = () => {
 							Tente escolher outros gêneros ou diminua a
 							quantidade de gêneros selecionados
 						</p>
-					</div>
+					</li>
 				)}
 			</Wraper>
 		</main>

@@ -7,10 +7,6 @@ type MovieCardProps = {
 };
 
 const MovieCard = ({ title, src, releaseDate }: MovieCardProps) => {
-	const day = "";
-	const month = "";
-	const year = "";
-
 	return (
 		<article className={styles.content}>
 			<div className={styles.movie_image}>
