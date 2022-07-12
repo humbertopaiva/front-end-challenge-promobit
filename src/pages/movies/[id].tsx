@@ -63,7 +63,7 @@ const Movies = () => {
 
 			setIsLoading(false);
 		}
-	}, []);
+	}, [id]);
 
 	const getYear = (date: string) => {
 		const transformDate = new Date(date);
@@ -102,10 +102,13 @@ const Movies = () => {
 							<div className={styles.circularProgress}>
 								<CircularProgressbar percentage={percentage} />
 							</div>
-							<div className={styles.overview}>
-								<h2>Sinopse</h2>
-								<p>{movie.overview}</p>
-							</div>
+							{movie.overview && (
+								<div className={styles.overview}>
+									<h2>Sinopse</h2>
+									<p>{movie.overview}</p>
+								</div>
+							)}
+
 							<ul className={styles.crewContent}>
 								{cast?.crew.map((staff, index) => {
 									const jobs = [

@@ -6,7 +6,7 @@
 
 .movieInfos_image {
 	height: 574px;
-	width: 383px;
+	min-width: 383px;
 	object-fit: cover;
 	margin-right: 32px;
 	margin-bottom: -3.5rem;
@@ -16,6 +16,8 @@
 
 	img {
 		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 }
 
@@ -26,6 +28,7 @@
 
 	h1 {
 		font-size: 32px;
+		margin-bottom: -14px;
 	}
 
 	h2 {
@@ -54,7 +57,7 @@
 	flex-wrap: wrap;
 	gap: 32px;
 	margin-top: 32px;
-	max-width: 600px;
+	padding-bottom: 2rem;
 
 	li {
 		min-width: 120px;

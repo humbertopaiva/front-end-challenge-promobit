@@ -1,9 +1,9 @@
 .movieRelease_content {
-	color: var(--color-text-light);
+	color: var(--color-text-gray);
+	opacity: 0.5;
 
 	ul {
 		display: flex;
-		justify-content: flex-start;
 		width: 100%;
 		font-size: 14px;
 		font-weight: 400;
@@ -14,17 +14,14 @@
 			justify-content: center;
 			margin-right: 1rem;
 
-			&::before {
+			&:not(:first-child)::before {
 				content: ".";
 				font-size: 32px;
 				display: flex;
 				align-items: flex-start;
 				flex-direction: column;
 				justify-content: center;
-			}
-
-			&::before:first-child {
-				content: " ";
+				margin-right: 0.5rem;
 			}
 		}
 	}

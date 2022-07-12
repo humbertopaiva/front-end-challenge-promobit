@@ -35,17 +35,7 @@ const MovieRelease = ({
 				)}
 
 				<li>{dateTransform(movie.release_date)}</li>
-				<li>
-					<ul className={styles.genresList}>
-						{movie.genres.map((genre, index, arr) => (
-							<li key={index}>
-								{genre.name}{" "}
-								{index === arr.length - 1 ? "" : ","}
-							</li>
-						))}
-					</ul>
-				</li>
-
+				<li>{movie.genres.map((genre) => genre.name).join(", ")}</li>
 				<li>{runtimeTransform()}</li>
 			</ul>
 		</div>
