@@ -4,6 +4,10 @@ import MovieRelease from "../../components/MovieRelease";
 import Wraper from "../../components/Wraper";
 import moviedbApi from "../../services/moviedbApi";
 
+import "react-circular-progressbar/dist/styles.css";
+import styles from "./styes.module.scss";
+import CircularProgressbar from "../../components/CircularProgressbar";
+
 interface Video {
 	type: string;
 	site: string;
@@ -12,11 +16,13 @@ interface Video {
 }
 
 const Movies = () => {
-	const [movie, setMovie] = useState<Movie>();
+	const [movie, setMovie] = useState<Movie | null>(null);
 	const [cast, setCast] = useState<Cast | null>(null);
 	const [videos, setVideos] = useState<Video[] | null>([]);
 	const [similarMovies, setSimilarMovies] = useState<Movie[] | null>([]);
 	const [certification, setCertification] = useState<string>("");
+	const [isLoading, setIsLoading] = useState(true);
+	const [percentage, setPercentage] = useState(0);
 
 	const router = useRouter();
 	const { id } = router.query;
@@ -26,6 +32,7 @@ const Movies = () => {
 			// INFORMACOES DO FILME
 			moviedbApi.getMovieInfos(id).then((res) => {
 				setMovie(res.data);
+				setPercentage(res.data.vote_average * 10);
 			});
 
 			// INFORMACOES DE ELENCO E EQUIPE
@@ -53,6 +60,8 @@ const Movies = () => {
 					releaseBR?.release_dates[0].certification;
 				setCertification(certificationBR!);
 			});
+
+			setIsLoading(false);
 		}
 	}, []);
 
@@ -61,31 +70,60 @@ const Movies = () => {
 		return transformDate.getFullYear();
 	};
 
-	// useEffect(() => {
-	// 	console.log("Movie", movie);
-	// 	console.log("Cast", cast);
-	// 	console.log("Videos", videos);
-	// 	console.log("Similar", similarMovies);
-	// 	console.log("Releases", certification);
-	// }, [certification]);
+	useEffect(() => {
+		console.log("Movie", movie);
+		console.log("Cast", cast);
+		console.log("Videos", videos);
+		console.log("Similar", similarMovies);
+		console.log("Releases", certification);
+	}, [certification]);
+
 	return (
 		<Wraper bgColor="primary">
-			<section>
-				<div>
+			<section className={styles.movieInfos}>
+				<div className={styles.movieInfos_image}>
 					<img
-						src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${movie?.poster_path}`}
+						src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movie?.poster_path}`}
 						alt={movie?.title}
 					/>
 				</div>
-				<div>
-					<h1>
-						{movie?.title} ({movie && getYear(movie?.release_date)})
-					</h1>
+				<div className={styles.movieInfos_texts}>
 					{movie && (
-						<MovieRelease
-							movie={movie}
-							certification={certification}
-						/>
+						<>
+							<h1>
+								{movie?.title} (
+								{movie && getYear(movie?.release_date)})
+							</h1>
+							<MovieRelease
+								movie={movie}
+								certification={certification}
+							/>
+
+							<div className={styles.circularProgress}>
+								<CircularProgressbar percentage={percentage} />
+							</div>
+							<div className={styles.overview}>
+								<h2>Sinopse</h2>
+								<p>{movie.overview}</p>
+							</div>
+							<ul className={styles.crewContent}>
+								{cast?.crew.map((staff, index) => {
+									const jobs = [
+										"Characters",
+										"Director",
+										"Screenplay",
+									];
+
+									if (jobs.includes(staff.job))
+										return (
+											<li key={index}>
+												<h3>{staff.name}</h3>
+												<h4>{staff.job}</h4>
+											</li>
+										);
+								})}
+							</ul>
+						</>
 					)}
 				</div>
 			</section>

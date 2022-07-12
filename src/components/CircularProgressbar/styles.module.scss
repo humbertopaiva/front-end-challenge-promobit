@@ -1,0 +1,16 @@
+.circularProgressbarContent {
+	height: 60px;
+	background-color: aqua;
+	display: inline;
+	position: relative;
+	width: 100%;
+}
+
+.circularProgressbarText {
+	position: absolute;
+	left: 80px;
+	top: 0.25rem;
+	width: 150px;
+	font-weight: 400;
+	font-size: 16px;
+}
