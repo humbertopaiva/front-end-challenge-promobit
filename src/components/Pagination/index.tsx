@@ -5,7 +5,8 @@ import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi";
 import { useEffect, useState } from "react";
 
 const Pagination = () => {
-	const { totalPages, setCurrentPage, currentPage } = useMoviesDB();
+	const { totalPages, setCurrentPage, currentPage, selectedGenres } =
+		useMoviesDB();
 	const [offset, setOffset] = useState(5);
 	const [lastIndex, setLastIndex] = useState(offset);
 	const [firstIndex, setFirstIndex] = useState(1);
@@ -52,41 +53,43 @@ const Pagination = () => {
 	return (
 		<Wraper>
 			<div className={styles.pagination}>
-				<ul>
-					{currentPage > 5 && (
+				{selectedGenres.length === 0 && (
+					<ul>
+						{currentPage > 5 && (
+							<li>
+								<button onClick={backwardPagination}>
+									<i>
+										<HiOutlineChevronLeft />
+									</i>
+								</button>
+							</li>
+						)}
+						{lastIndex <= totalPages &&
+							pages.map((number) => (
+								<li key={number}>
+									<button
+										className={`${
+											number === currentPage &&
+											styles["current"]
+										}`}
+										onClick={() => changePage(number)}
+									>
+										{number}
+									</button>
+								</li>
+							))}
 						<li>
-							<button onClick={backwardPagination}>
+							<button onClick={forwardPagination}>
 								<i>
-									<HiOutlineChevronLeft />
+									<HiOutlineChevronRight />
 								</i>
 							</button>
 						</li>
-					)}
-					{lastIndex <= totalPages &&
-						pages.map((number) => (
-							<li key={number}>
-								<button
-									className={`${
-										number === currentPage &&
-										styles["current"]
-									}`}
-									onClick={() => changePage(number)}
-								>
-									{number}
-								</button>
-							</li>
-						))}
-					<li>
-						<button onClick={forwardPagination}>
-							<i>
-								<HiOutlineChevronRight />
-							</i>
-						</button>
-					</li>
-					<li>
-						<button onClick={goToLastPage}>Última</button>
-					</li>
-				</ul>
+						<li>
+							<button onClick={goToLastPage}>Última</button>
+						</li>
+					</ul>
+				)}
 			</div>
 		</Wraper>
 	);

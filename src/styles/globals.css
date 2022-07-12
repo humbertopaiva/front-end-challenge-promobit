@@ -29,4 +29,6 @@ li {
 	--color-text-light: #dddddd;
 	--color-text-dark: #131313;
 	--color-text-gray: #dddddd;
+	--color-white-0: #fff;
+	--color-gray-200: rgb(227, 227, 227);
 }

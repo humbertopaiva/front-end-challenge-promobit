@@ -83,7 +83,7 @@ const MoviesGallery = () => {
 						))}
 				</ul>
 				{emptySearch && (
-					<li className={styles.notFound}>
+					<div className={styles.notFound}>
 						<i>
 							<TbMovieOff />
 						</i>
@@ -92,7 +92,7 @@ const MoviesGallery = () => {
 							Tente escolher outros gêneros ou diminua a
 							quantidade de gêneros selecionados
 						</p>
-					</li>
+					</div>
 				)}
 			</Wraper>
 		</main>

@@ -1,6 +1,6 @@
 .movieRelease_content {
 	color: var(--color-text-gray);
-	opacity: 0.5;
+	opacity: 0.6;
 
 	ul {
 		display: flex;
@@ -11,7 +11,6 @@
 		li {
 			display: flex;
 			align-items: flex-end;
-			justify-content: center;
 			margin-right: 1rem;
 
 			&:not(:first-child)::before {
@@ -22,7 +21,21 @@
 				flex-direction: column;
 				justify-content: center;
 				margin-right: 0.5rem;
+
+				@media (max-width: 1200px) {
+					display: none;
+				}
 			}
+
+			@media (max-width: 1200px) {
+				margin-bottom: 0.25rem;
+			}
+		}
+
+		@media (max-width: 1200px) {
+			flex-direction: column;
+			margin-top: 1.5rem;
+			line-height: 1.25rem;
 		}
 	}
 }

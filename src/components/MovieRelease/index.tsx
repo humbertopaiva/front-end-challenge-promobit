@@ -15,7 +15,7 @@ const MovieRelease = ({
 		const minutes = runtime % 60;
 		const textHours = `00${hours}`.slice(-2);
 		const textMinutes = `00${minutes}`.slice(-2);
-		return `${textHours}h${textMinutes}min`;
+		return `${textHours}h ${textMinutes}min`;
 	};
 
 	const dateTransform = (date: string) => {
