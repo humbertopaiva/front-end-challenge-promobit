@@ -38,6 +38,10 @@ const getReleaseDates = (id: string | string[] | undefined) => {
 	return api.get(`movie/${id}/release_dates?api_key=${API_KEY}`);
 };
 
+const getImages = (id: number) => {
+	return api.get(`person/${id}/images?api_key=${API_KEY}`);
+};
+
 const moviedbApi = {
 	getGenresList,
 	getMoviesList,
@@ -46,6 +50,7 @@ const moviedbApi = {
 	getVideos,
 	getSimilarMovies,
 	getReleaseDates,
+	getImages,
 };
 
 export default moviedbApi;

@@ -6,5 +6,5 @@ interface Movie {
 	vote_average: number;
 	release_date: string;
 	runtime: number;
-	genres: Genre[];
+	genre_ids: Genre[];
 }

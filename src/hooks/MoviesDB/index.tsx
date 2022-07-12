@@ -1,12 +1,12 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type Movie = {
-	title: string;
-	id: number;
-	release_date: Date;
-	poster_path: string;
-	genre_ids: number[];
-};
+// interface Movie {
+// 	title: string;
+// 	id: number;
+// 	release_date: Date;
+// 	poster_path: string;
+// 	genre_ids: number[];
+// }
 
 type Genre = {
 	id: number;

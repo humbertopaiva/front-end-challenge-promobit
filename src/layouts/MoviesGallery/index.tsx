@@ -7,14 +7,6 @@ import { TbMovieOff } from "react-icons/tb";
 import Link from "next/link";
 import moviedbApi from "../../services/moviedbApi";
 
-type Movie = {
-	title: string;
-	id: number;
-	release_date: Date;
-	poster_path: string;
-	genre_ids: number[];
-};
-
 const MoviesGallery = () => {
 	const {
 		popularMovies,

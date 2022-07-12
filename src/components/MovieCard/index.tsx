@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 type MovieCardProps = {
 	src: string;
 	title: string;
-	releaseDate: Date;
+	releaseDate: string;
 };
 
 const MovieCard = ({ title, src, releaseDate }: MovieCardProps) => {

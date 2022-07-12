@@ -9,6 +9,8 @@ import CircularProgressbar from "../../components/CircularProgressbar";
 import MoviePoster from "../../components/MoviePoster";
 import CastCard from "../../components/CastCard";
 import "react-circular-progressbar/dist/styles.css";
+import OficialTrailer from "../../components/OficialTrailer";
+import MovieCard from "../../components/MovieCard";
 
 interface Video {
 	type: string;
@@ -25,6 +27,7 @@ const Movies = () => {
 	const [certification, setCertification] = useState<string>("");
 	const [isLoading, setIsLoading] = useState(true);
 	const [percentage, setPercentage] = useState(0);
+	const [trailer, setTrailer] = useState("");
 	const { setSelectedGenres } = useMoviesDB();
 
 	const router = useRouter();
@@ -48,7 +51,9 @@ const Movies = () => {
 			});
 
 			// INFORMACOES SOBRE VIDEOS E TRAILERS
-			moviedbApi.getVideos(id).then((res) => setVideos(res.data.results));
+			moviedbApi.getVideos(id).then((res) => {
+				setVideos(res.data.results);
+			});
 
 			// INFORMACOES SOBRE FILMES SIMILARES
 			moviedbApi
@@ -78,6 +83,14 @@ const Movies = () => {
 		if (movie) setIsLoading(false);
 		else setIsLoading(true);
 	}, [movie]);
+
+	useEffect(() => {
+		const trailerKey = videos?.find(
+			(video) => video.site === "YouTube" && video.type === "Trailer"
+		);
+
+		if (trailerKey) setTrailer(trailerKey.key);
+	}, [videos]);
 
 	useEffect(() => {
 		console.log("Movie", movie);
@@ -166,6 +179,23 @@ const Movies = () => {
 						</ul>
 					</div>
 				</section>
+			</Wraper>
+			<Wraper>
+				<div>{trailer && <OficialTrailer src={trailer} />}</div>
+			</Wraper>
+			<Wraper>
+				<ul>
+					{similarMovies &&
+						similarMovies.map((movie) => (
+							<li key={movie.id + 10}>
+								<MovieCard
+									releaseDate={movie.release_date}
+									src={movie.poster_path}
+									title={movie.title}
+								/>
+							</li>
+						))}
+				</ul>
 			</Wraper>
 		</>
 	);
