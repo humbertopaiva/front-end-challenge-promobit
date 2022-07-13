@@ -1,6 +1,37 @@
 .section {
 	min-width: 100vw;
 	background-color: var(--color-bg);
+	padding: 0 1rem;
+
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+		cursor: all-scroll;
+	}
+	::-webkit-scrollbar-button {
+		width: 19px;
+		height: 19px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: #adadad;
+		border: 0px none #ffffff;
+		border-radius: 45px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: #dddddd;
+		border: 0px none #ffffff;
+		border-radius: 98px;
+	}
+	::-webkit-scrollbar-track:hover {
+		background: #e2e2e2;
+	}
+	::-webkit-scrollbar-track:active {
+		background: #dddddd;
+	}
+	::-webkit-scrollbar-corner {
+		background: transparent;
+	}
 }
 
 .section_content {

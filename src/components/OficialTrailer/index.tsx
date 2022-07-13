@@ -1,12 +1,11 @@
+import styles from "./styles.module.scss";
+
 const OficialTrailer = ({ src }: { src: string }) => {
 	return (
-		<div>
-			<iframe
-				id="ytplayer"
-				width="640"
-				height="360"
-				src={`http://www.youtube.com/embed/${src}`}
-			/>
+		<div className={styles.iFrameContainer}>
+			<div className={styles.iFrameContent}>
+				<iframe src={`http://www.youtube.com/embed/${src}`} />
+			</div>
 		</div>
 	);
 };

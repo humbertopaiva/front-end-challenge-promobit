@@ -1,0 +1,22 @@
+.castContainer {
+	margin-top: 6rem;
+	min-height: 400px;
+	overflow-x: auto;
+	margin-bottom: 40px;
+
+	h2 {
+		color: var(--color-text-dark);
+	}
+}
+
+.castList {
+	width: 100%;
+	overflow-x: auto;
+
+	ul {
+		width: 100%;
+		display: flex;
+		gap: 12px;
+		padding: 1rem 0;
+	}
+}

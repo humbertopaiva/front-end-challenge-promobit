@@ -1,0 +1,17 @@
+.similarMoviesContainer {
+	width: 100%;
+	margin-top: 40px;
+}
+
+.similarMoviesContent {
+	width: 100%;
+	overflow-x: auto;
+	margin-bottom: 2rem;
+}
+
+.similarMoviesList {
+	display: flex;
+	gap: 12px;
+	margin-top: 24px;
+	margin-bottom: 2rem;
+}

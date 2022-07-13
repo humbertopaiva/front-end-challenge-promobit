@@ -7,7 +7,6 @@ export default class MyDocument extends Document {
 				<Head>
 					<title>TMDB</title>
 				</Head>
-
 				<body>
 					<Main />
 					<NextScript />
