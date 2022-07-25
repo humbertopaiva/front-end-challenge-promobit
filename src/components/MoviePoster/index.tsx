@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import Image from "next/image";
+
 import ContentLoader from "react-content-loader";
 
 const MoviePoster = ({
@@ -24,9 +25,12 @@ const MoviePoster = ({
 					<ellipse cx="120" cy="140" rx="28" ry="28" />
 				</ContentLoader>
 			) : (
-				<img
-					src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${src}`}
+				<Image
+					src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${src}`}
 					alt={title}
+					width="383px"
+					height="574px"
+					objectFit="cover"
 				/>
 			)}
 		</>

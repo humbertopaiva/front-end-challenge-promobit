@@ -1,22 +1,8 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import moviedbApi from "../../services/moviedbApi";
 import CastCard from "../CastCard";
 import Wraper from "../Wraper";
 import styles from "./styles.module.scss";
 
-const MovieCast = () => {
-	const [cast, setCast] = useState<Cast | null>(null);
-	const router = useRouter();
-	const { id } = router.query;
-
-	useEffect(() => {
-		if (id)
-			moviedbApi.getCast(id).then((res) => {
-				setCast(res.data);
-			});
-	}, [id]);
-
+const MovieCast = ({ cast }: { cast: Cast }) => {
 	return (
 		<Wraper>
 			<section className={styles.castContainer}>

@@ -1,7 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import CircularProgressbar from "../../components/CircularProgressbar";
-import moviedbApi from "../../services/moviedbApi";
 import MovieRelease from "../MovieRelease";
 import Wraper from "../Wraper";
 import Crew from "./Crew";
@@ -9,43 +7,26 @@ import Overview from "./Overview";
 import Poster from "./Poster";
 import styles from "./styles.module.scss";
 
-const MovieInfo = () => {
-	const [movie, setMovie] = useState<Movie | null>(null);
-	const [cast, setCast] = useState<Cast | null>(null);
-	const [certification, setCertification] = useState<string>("");
-	const [percentage, setPercentage] = useState(0);
+const MovieInfo = ({ movie }: { movie: Movie }) => {
 	const [isLoading, setIsLoading] = useState(true);
-	const router = useRouter();
-	const { id } = router.query;
+	const {
+		cast,
+		poster_path,
+		title,
+		release_date,
+		certification,
+		overview,
+		genres,
+		runtime,
+		vote_average,
+	} = movie;
+
+	console.log("Emucuaqui", movie);
 
 	const getYear = (date: string) => {
 		const transformDate = new Date(date);
 		return transformDate.getFullYear();
 	};
-
-	useEffect(() => {
-		if (id) {
-			moviedbApi.getMovieInfos(id).then((res) => {
-				setMovie(res.data);
-				setPercentage(res.data.vote_average * 10);
-			});
-
-			moviedbApi.getCast(id).then((res) => {
-				setCast(res.data);
-				console.log("Elenco", res.data);
-			});
-
-			moviedbApi.getReleaseDates(id).then((res) => {
-				const releases: Release[] = res.data.results;
-				const releaseBR = releases.find(
-					(rel) => rel.iso_3166_1 === "BR"
-				);
-				const certificationBR =
-					releaseBR?.release_dates[0].certification;
-				setCertification(certificationBR!);
-			});
-		}
-	}, [id]);
 
 	useEffect(() => {
 		if (movie) setIsLoading(false);
@@ -55,35 +36,34 @@ const MovieInfo = () => {
 	return (
 		<Wraper bgColor="primary">
 			<section className={styles.movieInfos}>
-				{movie && (
+				{poster_path && title && (
 					<Poster
-						src={movie?.poster_path}
+						src={poster_path}
 						isLoading={isLoading}
-						title={movie?.title}
+						title={title}
 					/>
 				)}
 
 				<div className={styles.movieInfos_texts}>
-					{movie && (
-						<>
-							<h1>
-								{movie?.title} (
-								{movie && getYear(movie?.release_date)})
-							</h1>
-							<MovieRelease
-								movie={movie}
-								certification={certification}
-							/>
-							<div className={styles.circularProgress}>
-								<CircularProgressbar percentage={percentage} />
-							</div>
-							{movie.overview && (
-								<Overview overview={movie.overview} />
-							)}
-
-							{cast && <Crew cast={cast} />}
-						</>
+					<h1>
+						{title} ({release_date && getYear(release_date)}
+					</h1>
+					{certification && genres && release_date && runtime && (
+						<MovieRelease
+							certification={certification}
+							genres={genres}
+							release_date={release_date}
+							runtime={runtime}
+						/>
 					)}
+					<div className={styles.circularProgress}>
+						{vote_average && (
+							<CircularProgressbar average={vote_average} />
+						)}
+					</div>
+					{overview && <Overview overview={overview} />}
+
+					{cast && <Crew cast={cast} />}
 				</div>
 			</section>
 		</Wraper>

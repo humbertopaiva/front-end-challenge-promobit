@@ -1,21 +1,40 @@
+import { useEffect, useState } from "react";
 import styles from "./styles.module.scss";
 
+type Props = {
+	runtime: number;
+	genres: Genre[];
+	certification: Certification[];
+	release_date: string;
+};
+
 const MovieRelease = ({
-	movie,
+	runtime,
+	genres,
 	certification,
-}: {
-	movie: Movie;
-	certification: string;
-}) => {
-	// const date = movie.release_date.toLocaleDateString();
-	const runtime = movie.runtime;
+	release_date,
+}: Props) => {
+	const [certificationAge, setCertificationAge] = useState<string>("");
+
+	useEffect(() => {
+		if (certification) {
+			certification.map((c) => {
+				if (c.iso_3166_1 === "BR" && c.release_dates) {
+					if (c.release_dates[0].certification)
+						setCertificationAge(c.release_dates[0].certification);
+				}
+			});
+		}
+	}, [certification]);
 
 	const runtimeTransform = () => {
-		const hours = Math.floor(runtime / 60);
-		const minutes = runtime % 60;
-		const textHours = `00${hours}`.slice(-2);
-		const textMinutes = `00${minutes}`.slice(-2);
-		return `${textHours}h ${textMinutes}min`;
+		if (runtime) {
+			const hours = Math.floor(runtime / 60);
+			const minutes = runtime % 60;
+			const textHours = `00${hours}`.slice(-2);
+			const textMinutes = `00${minutes}`.slice(-2);
+			return `${textHours}h ${textMinutes}min`;
+		}
 	};
 
 	const dateTransform = (date: string) => {
@@ -26,16 +45,21 @@ const MovieRelease = ({
 	return (
 		<div className={styles.movieRelease_content}>
 			<ul>
-				{certification && (
-					<li>
-						{certification === "L"
-							? "Classificação livre"
-							: `${certification} anos`}
-					</li>
-				)}
+				<li>
+					{certificationAge && (
+						<>
+							Classificação:{" "}
+							{certificationAge === "L"
+								? "Livre"
+								: certificationAge + " anos"}
+						</>
+					)}
+				</li>
 
-				<li>{dateTransform(movie.release_date)}</li>
-				<li>{movie.genres.map((genre) => genre.name).join(", ")}</li>
+				<li>{dateTransform(release_date)}</li>
+
+				<li>{genres.map((genre) => genre.name).join(", ")}</li>
+
 				<li>{runtimeTransform()}</li>
 			</ul>
 		</div>

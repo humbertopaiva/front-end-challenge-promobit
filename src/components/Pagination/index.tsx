@@ -1,8 +1,8 @@
 import { useMoviesDB } from "../../hooks/MoviesDB";
+import { useEffect, useState } from "react";
+import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi";
 import Wraper from "../Wraper";
 import styles from "./styles.module.scss";
-import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi";
-import { useEffect, useState } from "react";
 
 const Pagination = () => {
 	const { totalPages, setCurrentPage, currentPage, selectedGenres } =

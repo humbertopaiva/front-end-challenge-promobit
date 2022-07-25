@@ -1,17 +1,30 @@
-import type { NextPage } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Pagination from "../components/Pagination";
 import GenresSection from "../layouts/GenresSection";
-import Header from "../layouts/Header";
 import MoviesGallery from "../layouts/MoviesGallery";
+import moviedbApi from "../services/moviedbApi";
 
-const Home: NextPage = () => {
+const Home = ({ genres }: { genres: Genre[] }) => {
 	return (
 		<div>
-			<GenresSection />
+			<GenresSection genres={genres} />
 			<MoviesGallery />
 			<Pagination />
 		</div>
 	);
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+	const genres = await moviedbApi
+		.getGenresList()
+		.then((res) => res.data.genres);
+
+	return {
+		props: {
+			genres,
+		},
+		revalidate: 60 * 60 * 24, //24 hours
+	};
 };
 
 export default Home;

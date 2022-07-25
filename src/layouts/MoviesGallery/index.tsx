@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import MovieCard from "../../components/MovieCard";
-import Wraper from "../../components/Wraper";
 import { useMoviesDB } from "../../hooks/MoviesDB";
-import styles from "./styles.module.scss";
 import { TbMovieOff } from "react-icons/tb";
 import Link from "next/link";
 import moviedbApi from "../../services/moviedbApi";
+import MovieCard from "../../components/MovieCard";
+import Wraper from "../../components/Wraper";
+import styles from "./styles.module.scss";
 
 const MoviesGallery = () => {
 	const {
@@ -23,6 +23,7 @@ const MoviesGallery = () => {
 	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
 
 	useEffect(() => {
+		console.log(popularMovies);
 		const movies = popularMovies.filter((movie) => {
 			const hasMovie = movie.genre_ids.map((genre) => {
 				const hasGenre = selectedGenres.includes(genre);
@@ -51,7 +52,6 @@ const MoviesGallery = () => {
 		moviedbApi.getMoviesList(currentPage).then((res) => {
 			setPopularMovies(res.data.results);
 			setTotalPages(res.data.total_pages);
-			console.log(res.data);
 		});
 	}, [currentPage]);
 
@@ -62,15 +62,12 @@ const MoviesGallery = () => {
 					{!emptySearch &&
 						filteredMovies.map((movie) => (
 							<li key={movie.id}>
-								<Link href={`/movies/${movie.id}`}>
-									<a>
-										<MovieCard
-											src={movie.poster_path}
-											releaseDate={movie.release_date}
-											title={movie.title}
-										/>
-									</a>
-								</Link>
+								<MovieCard
+									src={movie.poster_path}
+									releaseDate={movie.release_date}
+									title={movie.title}
+									id={movie.id}
+								/>
 							</li>
 						))}
 				</ul>

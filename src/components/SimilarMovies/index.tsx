@@ -6,38 +6,26 @@ import MovieCard from "../MovieCard";
 import Wraper from "../Wraper";
 import styles from "./styles.module.scss";
 
-const SimilarMovies = () => {
-	const [similarMovies, setSimilarMovies] = useState<Movie[] | null>([]);
-	const router = useRouter();
-	const { id } = router.query;
-
-	useEffect(() => {
-		if (id)
-			moviedbApi
-				.getSimilarMovies(id)
-				.then((res) => setSimilarMovies(res.data.results));
-	}, [id]);
-
+const SimilarMovies = ({ similarMovies }: { similarMovies: Movie[] }) => {
 	return (
 		<Wraper>
 			<div className={styles.similarMoviesContainer}>
 				<h2>Recomendações</h2>
 				<div className={styles.similarMoviesContent}>
 					<ul className={styles.similarMoviesList}>
-						{similarMovies &&
-							similarMovies.map((movie) => (
-								<li key={movie.id + 10}>
-									<Link href={`/movies/${movie.id}`}>
-										<a>
-											<MovieCard
-												releaseDate={movie.release_date}
-												src={movie.poster_path}
-												title={movie.title}
-											/>
-										</a>
-									</Link>
-								</li>
-							))}
+						{similarMovies?.map((movie) => {
+							if (movie)
+								return (
+									<li key={movie.id}>
+										<MovieCard
+											id={movie.id}
+											releaseDate={movie.release_date}
+											src={movie.poster_path}
+											title={movie.title}
+										/>
+									</li>
+								);
+						})}
 					</ul>
 				</div>
 			</div>

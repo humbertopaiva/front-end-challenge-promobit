@@ -1,13 +1,7 @@
-import { useMoviesDB } from "../../hooks/MoviesDB";
 import GenreTag from "../GenreTag";
 import styles from "./styles.module.scss";
 
-// type CategoriesList = {
-// 	categories: Array<string>;
-// };
-
-const GenresList = () => {
-	const { genres } = useMoviesDB();
+const GenresList = ({ genres }: { genres: Genre[] }) => {
 	return (
 		<ul className={styles.content}>
 			{genres.map((genre) => (

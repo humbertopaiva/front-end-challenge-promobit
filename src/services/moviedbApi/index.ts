@@ -16,7 +16,7 @@ const getMoviesList = (page: number) => {
 	);
 };
 
-const getMovieInfos = (id: string | string[] | undefined) => {
+const getMovieData = (id: string | string[] | undefined) => {
 	return api.get(`movie/${id}?api_key=${API_KEY}&language=pt-BR`);
 };
 
@@ -45,7 +45,7 @@ const getImages = (id: number) => {
 const moviedbApi = {
 	getGenresList,
 	getMoviesList,
-	getMovieInfos,
+	getMovieData,
 	getCast,
 	getVideos,
 	getSimilarMovies,

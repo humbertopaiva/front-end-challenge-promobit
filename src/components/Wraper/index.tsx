@@ -1,4 +1,4 @@
-import { JSXElementConstructor, ReactNode } from "react";
+import { ReactNode } from "react";
 import styles from "./styles.module.scss";
 
 type SectionProps = {

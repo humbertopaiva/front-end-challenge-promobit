@@ -1,26 +1,32 @@
-import styles from "./styles.module.scss";
-import { BsFileEarmarkPerson } from "react-icons/bs";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { BsFileEarmarkPerson } from "react-icons/bs";
 import moviedbApi from "../../services/moviedbApi";
+import styles from "./styles.module.scss";
 
 const CastCard = (actor: Actor) => {
 	const characters = actor.character.split(/\s*[/]\s*/);
-	const [pictures, setPictures] = useState([]);
+	const [picturePath, setPicturePath] = useState("");
 
 	useEffect(() => {
-		const images = moviedbApi
-			.getImages(actor.id)
-			.then((res) => setPictures(res.data.profiles));
+		moviedbApi.getImages(actor.id).then((res) => {
+			const profiles = res.data.profiles;
+			if (profiles.length > 0) {
+				setPicturePath(profiles[0].file_path);
+			}
+		});
 	}, []);
 
 	return (
 		<article className={styles.castCardContainer}>
 			<div className={styles.imageContainer}>
-				{actor.profile_path && pictures.length > 0 ? (
-					<img
-						src={`https://www.themoviedb.org/t/p/w220_and_h330_face/${actor.profile_path}`}
+				{picturePath ? (
+					<Image
+						src={`https://image.tmdb.org/t/p/w185${picturePath}`}
 						alt={actor.name}
+						width="175px"
+						height="222px"
+						objectFit="cover"
 					/>
 				) : (
 					<i>

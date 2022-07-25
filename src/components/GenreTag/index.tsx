@@ -1,14 +1,9 @@
 import styles from "./styles.module.scss";
 import { IoMdCloseCircle } from "react-icons/io";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMoviesDB } from "../../hooks/MoviesDB";
 
-type GenreTagProps = {
-	name: string;
-	id: number;
-};
-
-const GenreTag = ({ name, id }: GenreTagProps) => {
+const GenreTag = ({ name, id }: Genre) => {
 	const [selected, setSelected] = useState(false);
 	const { selectedGenres, setSelectedGenres } = useMoviesDB();
 

@@ -4,7 +4,8 @@ import {
 } from "react-circular-progressbar";
 import styles from "./styles.module.scss";
 
-const CircularProgressbar = ({ percentage }: { percentage: number }) => {
+const CircularProgressbar = ({ average }: { average: number }) => {
+	const percentage = Math.round(average * 10);
 	return (
 		<div className={styles.circularProgressbarContent}>
 			<div>
