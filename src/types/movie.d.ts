@@ -12,6 +12,7 @@ interface Movie {
 	overview?: string;
 	vote_average?: number;
 	genres?: Genre[];
+	genre_ids?: number[];
 	runtime?: number;
 	release_date?: string;
 	poster_path?: string;
@@ -45,7 +46,7 @@ interface Staff {
 
 // Similar  Interface
 
-interface SimilarMovies {
+interface SimilarMovie {
 	data?: MovieData;
 }
 

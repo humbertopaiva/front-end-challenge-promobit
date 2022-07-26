@@ -8,65 +8,67 @@ import moviedbApi from "../../services/moviedbApi";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-interface MovieProps {
+type MovieProps = {
 	movie: Movie;
-	cast: Cast;
-	certification: string;
-	percentage: number;
-}
+	movieCast: Cast;
+	similarMovies: Movie[];
+	trailers: Trailer[];
+};
 
-const Movie = () => {
-	const router = useRouter();
-	const { id } = router.query;
-	const api = moviedbApi;
+const Movie = ({ movie, movieCast, similarMovies, trailers }: MovieProps) => {
+	// const router = useRouter();
+	// const { id } = router.query;
+	// const api = moviedbApi;
 
-	const [movieData, setMovieData] = useState<Movie>();
-	const [cast, setCast] = useState<Cast>();
-	const [similarMovies, setSimilarMovies] = useState<Movie[]>();
-	const [certification, setCertification] = useState<Certification>();
-	const [trailers, setTrailers] = useState<Trailer[]>();
-	const [movie, setMovie] = useState<Movie | {}>();
+	// const [movieData, setMovieData] = useState<Movie>();
+	// const [cast, setCast] = useState<Cast>();
+	// const [similarMovies, setSimilarMovies] = useState<Movie[]>();
+	// const [certification, setCertification] = useState<Certification>();
+	// const [trailers, setTrailers] = useState<Trailer[]>();
+	// const [movie, setMovie] = useState<Movie | {}>();
 
-	useEffect(() => {
-		if (id) {
-			//MOVIE DATA
-			api.getMovieData(id).then((res) => setMovieData(res.data));
+	// useEffect(() => {
+	// 	if (id) {
+	// 		//MOVIE DATA
+	// 		api.getMovieData(id).then((res) => setMovieData(res.data));
 
-			//MOVIE CAST
-			api.getCast(id).then((res) => setCast(res.data));
+	// 		//MOVIE CAST
+	// 		api.getCast(id).then((res) => setCast(res.data));
 
-			//SIMILAR MOVIES
-			api.getSimilarMovies(id).then((res) =>
-				setSimilarMovies(res.data.results)
-			);
-			//RELEASE DATES AND CERTIFICATION AGE
-			api.getReleaseDates(id).then((res) =>
-				setCertification(res.data.results)
-			);
-			//MOVIE TRAILER
-			api.getVideos(id).then((res) => {
-				setTrailers(res.data.results);
-			});
-		}
-	}, [id]);
+	// 		//SIMILAR MOVIES
+	// 		api.getSimilarMovies(id).then((res) =>
+	// 			setSimilarMovies(res.data.results)
+	// 		);
+	// 		//RELEASE DATES AND CERTIFICATION AGE
+	// 		api.getReleaseDates(id).then((res) =>
+	// 			setCertification(res.data.results)
+	// 		);
+	// 		//MOVIE TRAILER
+	// 		api.getVideos(id).then((res) => {
+	// 			setTrailers(res.data.results);
+	// 		});
+	// 	}
+	// }, [id]);
 
-	useEffect(() => {
-		const data = {
-			...movieData,
-			similarMovies,
-			cast,
-			certification,
-		};
+	// useEffect(() => {
+	// 	const data = {
+	// 		...movieData,
+	// 		similarMovies,
+	// 		cast,
+	// 		certification,
+	// 	};
 
-		setMovie(data);
-	}, [movieData, cast, similarMovies, certification, trailers]);
+	// 	console.log("DAta", data);
+
+	// 	setMovie(data);
+	// }, [movieData, cast, similarMovies, certification, trailers]);
 
 	return (
 		<>
-			{movie && cast && trailers && similarMovies && (
+			{movie && movieCast && trailers && similarMovies && (
 				<>
 					<MovieInfo movie={movie} />
-					<MovieCast cast={cast} />
+					<MovieCast cast={movieCast} />
 					<MovieTrailer trailers={trailers} />
 					<SimilarMovies similarMovies={similarMovies} />
 				</>
@@ -75,53 +77,60 @@ const Movie = () => {
 	);
 };
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-// 	const movies: Movie[] = await moviedbApi
-// 		.getMoviesList(1)
-// 		.then((res) => res.data.results);
-// 	const moviesIds = movies.map((movie) => movie.id.toString());
-// 	const paths = moviesIds.map((id) => {
-// 		return {
-// 			params: {
-// 				id,
-// 			},
-// 		};
-// 	});
+export const getStaticPaths: GetStaticPaths = async () => {
+	const api = moviedbApi;
+	const movies: Movie[] = await api
+		.getMoviesList(1)
+		.then((res) => res.data.results);
+	console.log("MOVIESSS", movies);
+	const paths = movies.map((movie) => {
+		return {
+			params: {
+				id: movie.id?.toString(),
+			},
+		};
+	});
 
-// 	return {
-// 		fallback: true,
-// 		paths,
-// 	};
-// };
+	return {
+		paths,
+		fallback: "blocking",
+	};
+};
 
-// export const getStaticProps: GetStaticProps = async (context) => {
-// 	const id = context.params?.id;
-// 	const movieId = id;
-// 	console.log(movieId);
+export const getStaticProps: GetStaticProps = async (context) => {
+	const { params } = context;
+	const api = moviedbApi;
 
-// 	const movieInfosResponse: Movie = await moviedbApi
-// 		.getMovieInfos(id)
-// 		.then((res) => res.data);
-// 	const movie = movieInfosResponse;
-// 	const percentage = movieInfosResponse.vote_average * 10;
+	if (params) {
+		const movieData = await api
+			.getMovieData(params.id)
+			.then((res) => res.data);
+		const movieCast = await api.getCast(params.id).then((res) => res.data);
+		const similarMovies = await api
+			.getSimilarMovies(params.id)
+			.then((res) => res.data.results);
+		const trailers = await api
+			.getVideos(params.id)
+			.then((res) => res.data.results);
+		const certification = await api
+			.getReleaseDates(params.id)
+			.then((res) => res.data.results);
 
-// 	const cast = moviedbApi.getCast(id).then((res) => res.data);
+		const movie = {
+			...movieData,
+			similarMovies,
+			movieCast,
+			certification,
+		};
 
-// 	const releaseDates: Release[] = await moviedbApi
-// 		.getReleaseDates(id)
-// 		.then((res) => res.data.results);
-// 	const releaseBR = releaseDates.find((rel) => rel.iso_3166_1 === "BR");
-// 	const certification = releaseBR?.release_dates[0].certification;
+		return {
+			props: { movie, movieCast, similarMovies, trailers },
+		};
+	}
 
-// 	return {
-// 		props: {
-// 			movie,
-// 			percentage,
-// 			cast,
-// 			certification,
-// 		},
-// 		revalidate: 60 * 60 * 24 * 7, // 7 days
-// 	};
-// };
+	return {
+		props: {},
+	};
+};
 
 export default Movie;

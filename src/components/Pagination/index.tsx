@@ -7,9 +7,9 @@ import styles from "./styles.module.scss";
 const Pagination = () => {
 	const { totalPages, setCurrentPage, currentPage, selectedGenres } =
 		useMoviesDB();
-	const [offset, setOffset] = useState(5);
+	const offset = 5;
 	const [lastIndex, setLastIndex] = useState(offset);
-	const [firstIndex, setFirstIndex] = useState(1);
+	const [firstIndex, setFirstIndex] = useState(currentPage);
 	const [pages, setPages] = useState<number[]>([]);
 
 	const changePage = (page: number) => {
@@ -64,20 +64,19 @@ const Pagination = () => {
 								</button>
 							</li>
 						)}
-						{lastIndex <= totalPages &&
-							pages.map((number) => (
-								<li key={number}>
-									<button
-										className={`${
-											number === currentPage &&
-											styles["current"]
-										}`}
-										onClick={() => changePage(number)}
-									>
-										{number}
-									</button>
-								</li>
-							))}
+						{pages.map((number) => (
+							<li key={number}>
+								<button
+									className={`${
+										number === currentPage &&
+										styles["current"]
+									}`}
+									onClick={() => changePage(number)}
+								>
+									{number}
+								</button>
+							</li>
+						))}
 						<li>
 							<button onClick={forwardPagination}>
 								<i>
