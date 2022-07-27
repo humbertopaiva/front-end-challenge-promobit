@@ -9,7 +9,7 @@ const MovieCast = ({ cast }: { cast: Cast }) => {
 				<h2>Elenco original</h2>
 				<div className={styles.castList}>
 					<ul>
-						{cast &&
+						{cast.cast &&
 							cast.cast.map((actor) => (
 								<li key={actor.id}>
 									<CastCard

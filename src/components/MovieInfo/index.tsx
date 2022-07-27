@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 
 const MovieInfo = ({ movie }: { movie: Movie }) => {
 	const [isLoading, setIsLoading] = useState(true);
+
 	const {
 		cast,
 		poster_path,
@@ -20,8 +21,6 @@ const MovieInfo = ({ movie }: { movie: Movie }) => {
 		runtime,
 		vote_average,
 	} = movie;
-
-	console.log("Emucuaqui", movie);
 
 	const getYear = (date: string) => {
 		const transformDate = new Date(date);
@@ -58,7 +57,7 @@ const MovieInfo = ({ movie }: { movie: Movie }) => {
 					)}
 					<div className={styles.circularProgress}>
 						{vote_average && (
-							<CircularProgressbar average={vote_average} />
+							<CircularProgressbar average={+vote_average} />
 						)}
 					</div>
 					{overview && <Overview overview={overview} />}

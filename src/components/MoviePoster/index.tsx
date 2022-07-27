@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import ContentLoader from "react-content-loader";
 
 const MoviePoster = ({

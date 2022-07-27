@@ -42,6 +42,7 @@ interface Staff {
 	name?: string;
 	department?: string;
 	profile_path?: string;
+	job?: string;
 }
 
 // Similar  Interface
