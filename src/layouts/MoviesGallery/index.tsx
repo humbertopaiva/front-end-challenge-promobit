@@ -1,22 +1,20 @@
 import { useEffect, useState } from "react";
 import { useMoviesDB } from "../../hooks/MoviesDB";
 import { TbMovieOff } from "react-icons/tb";
-import Link from "next/link";
 import moviedbApi from "../../services/moviedbApi";
 import MovieCard from "../../components/MovieCard";
 import Wraper from "../../components/Wraper";
 import styles from "./styles.module.scss";
 
 const MoviesGallery = ({ moviesList }: { moviesList: Movie[] }) => {
-	const { selectedGenres, currentPage, setTotalPages } = useMoviesDB();
+	const { selectedGenres, setSelectedGenres, currentPage, setTotalPages } =
+		useMoviesDB();
 
 	const [filteredMovies, setFilteredMovies] = useState<Movie[]>(moviesList);
 	const [emptySearch, setEmptySearch] = useState(false);
 	const [movies, setMovies] = useState<Movie[]>([]);
 
-	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
-
-	useEffect(() => {
+	const createGallery = () => {
 		const filtered = movies.filter((movie) => {
 			const hasMovie = movie.genre_ids?.map((genre) => {
 				return selectedGenres.includes(genre);
@@ -35,6 +33,19 @@ const MoviesGallery = ({ moviesList }: { moviesList: Movie[] }) => {
 
 		if (filtered.length === 0 && selectedGenres.length > 0)
 			setEmptySearch(true);
+	};
+
+	useEffect(() => {
+		const localGenres = localStorage.getItem("@TMDB/genres");
+		if (localGenres) {
+			setSelectedGenres(JSON.parse(localGenres));
+		}
+	}, []);
+
+	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
+
+	useEffect(() => {
+		createGallery();
 	}, [selectedGenres]);
 
 	//CARREGA A LISTA DE FILMES NO MODO DEFAULT

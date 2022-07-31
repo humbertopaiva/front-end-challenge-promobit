@@ -1,8 +1,5 @@
-import { useEffect } from "react";
 import GenresList from "../../components/GenresList";
 import Wraper from "../../components/Wraper";
-import { useMoviesDB } from "../../hooks/MoviesDB";
-import moviedbApi from "../../services/moviedbApi";
 import styles from "./styles.module.scss";
 
 const GenresSection = ({ genres }: { genres: Genre[] }) => {

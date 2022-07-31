@@ -1,7 +1,3 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import moviedbApi from "../../services/moviedbApi";
 import MovieCard from "../MovieCard";
 import Wraper from "../Wraper";
 import styles from "./styles.module.scss";
