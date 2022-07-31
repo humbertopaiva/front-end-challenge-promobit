@@ -1,4 +1,4 @@
-import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import type { GetStaticProps } from "next";
 import Pagination from "../components/Pagination";
 import GenresSection from "../layouts/GenresSection";
 import MoviesGallery from "../layouts/MoviesGallery";

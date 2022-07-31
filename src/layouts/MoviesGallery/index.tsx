@@ -1,71 +1,48 @@
 import { useEffect, useState } from "react";
 import { useMoviesDB } from "../../hooks/MoviesDB";
 import { TbMovieOff } from "react-icons/tb";
-import moviedbApi from "../../services/moviedbApi";
 import MovieCard from "../../components/MovieCard";
 import Wraper from "../../components/Wraper";
 import styles from "./styles.module.scss";
 
 const MoviesGallery = ({ moviesList }: { moviesList: Movie[] }) => {
-	const { selectedGenres, setSelectedGenres, currentPage, setTotalPages } =
-		useMoviesDB();
+	const { selectedGenres } = useMoviesDB();
 
 	const [filteredMovies, setFilteredMovies] = useState<Movie[]>(moviesList);
 	const [emptySearch, setEmptySearch] = useState(false);
-	const [movies, setMovies] = useState<Movie[]>([]);
 
 	const createGallery = () => {
-		const filtered = movies.filter((movie) => {
-			const hasMovie = movie.genre_ids?.map((genre) => {
-				return selectedGenres.includes(genre);
-			});
+		const storage = localStorage.getItem("@TMDB/genres");
+		if (storage) {
+			const genres = JSON.parse(storage);
+			if (genres) {
+				const filtered = moviesList.filter((movie) => {
+					const hasMovie = movie.genre_ids?.map((genre) => {
+						return genres.includes(genre);
+					});
 
-			if (hasMovie?.filter((e) => e).length === selectedGenres.length)
-				return movie;
-		});
+					if (hasMovie?.filter((e) => e).length === genres.length)
+						return movie;
+				});
 
-		if (filtered.length > 0) {
-			setFilteredMovies(filtered);
-			setEmptySearch(false);
+				if (filtered.length > 0) {
+					setFilteredMovies(filtered);
+					setEmptySearch(false);
+				}
+
+				if (genres.length === 0) setFilteredMovies(moviesList);
+
+				if (filtered.length === 0 && genres.length > 0)
+					setEmptySearch(true);
+			}
 		}
-
-		if (selectedGenres.length === 0) setFilteredMovies(movies);
-
-		if (filtered.length === 0 && selectedGenres.length > 0)
-			setEmptySearch(true);
 	};
-
-	useEffect(() => {
-		const localGenres = localStorage.getItem("@TMDB/genres");
-		if (localGenres) {
-			setSelectedGenres(JSON.parse(localGenres));
-		}
-	}, []);
 
 	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
 
 	useEffect(() => {
 		createGallery();
 	}, [selectedGenres]);
-
-	//CARREGA A LISTA DE FILMES NO MODO DEFAULT
-
-	useEffect(() => {
-		if (currentPage === 1) {
-			setMovies(moviesList);
-			setFilteredMovies(moviesList);
-		} else {
-			moviedbApi.getMoviesList(currentPage).then((res) => {
-				setMovies(res.data.results);
-				setTotalPages(res.data.total_pages);
-				setFilteredMovies(res.data.results);
-			});
-		}
-	}, [currentPage]);
-
-	useEffect(() => {
-		setFilteredMovies(movies);
-	}, [movies]);
 
 	return (
 		<main className={styles.content}>

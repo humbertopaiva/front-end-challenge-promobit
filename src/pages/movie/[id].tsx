@@ -1,10 +1,10 @@
-import "react-circular-progressbar/dist/styles.css";
+import { GetStaticPaths, GetStaticProps } from "next";
 import SimilarMovies from "../../components/SimilarMovies";
 import MovieTrailer from "../../components/MovieTrailer";
 import MovieCast from "../../components/MovieCast";
 import MovieInfo from "../../components/MovieInfo";
-import { GetStaticPaths, GetStaticProps } from "next";
 import moviedbApi from "../../services/moviedbApi";
+import "react-circular-progressbar/dist/styles.css";
 
 type MovieProps = {
 	movie: Movie;

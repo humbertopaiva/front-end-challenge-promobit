@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { BsFileEarmarkPerson } from "react-icons/bs";
+import Image from "next/image";
 import styles from "./styles.module.scss";
 
 const CastCard = (actor: Actor) => {

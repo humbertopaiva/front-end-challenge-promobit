@@ -1,51 +1,53 @@
-import styles from "./styles.module.scss";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useMoviesDB } from "../../hooks/MoviesDB";
+import styles from "./styles.module.scss";
 
 const GenreTag = ({ name, id }: Genre) => {
 	const [selected, setSelected] = useState(false);
-	const { selectedGenres, setSelectedGenres } = useMoviesDB();
+	const { setSelectedGenres } = useMoviesDB();
 
 	useEffect(() => {
-		const localGenres = localStorage.getItem("@TMDB/genres");
-		if (localGenres) {
-			const genresArray = JSON.parse(localGenres);
+		const storage = localStorage.getItem("@TMDB/genres");
+		if (storage) {
+			const genres = JSON.parse(storage);
+			console.log(genres);
 
-			if (genresArray.includes(id)) {
+			if (genres.includes(id)) {
 				setSelected(true);
-			}
+			} else setSelected(false);
 		}
 	}, []);
 
-	useEffect(() => {
+	const handleClick = () => {
+		const storageGenres = localStorage.getItem("@TMDB/genres");
+		const genres: number[] = storageGenres ? JSON.parse(storageGenres) : [];
+		const genresList: number[] = [...genres];
+
+		//SELECIONANDO
 		if (!selected) {
-			if (selectedGenres.length > 0) {
-				const localGenres = localStorage.getItem("@TMDB/genres");
-
-				localStorage.setItem(
-					"@TMDB/genres",
-					JSON.stringify(
-						selectedGenres.filter((genre) => genre !== id)
-					)
-				);
-
-				if (localGenres) setSelectedGenres(JSON.parse(localGenres));
-			}
+			localStorage.setItem(
+				"@TMDB/genres",
+				JSON.stringify([...genresList, id])
+			);
+			setSelectedGenres([...genresList, id]);
 		}
 
-		if (selectedGenres.length === 0) {
+		//DESSELECIONANDO
+		if (selected && genresList.length > 0) {
+			localStorage.setItem(
+				"@TMDB/genres",
+				JSON.stringify(genresList.filter((genreId) => genreId !== id))
+			);
+			setSelectedGenres(genresList.filter((genreId) => genreId !== id));
+		}
+
+		if (selected && genres.length === 0) {
+			setSelectedGenres([]);
 			localStorage.removeItem("@TMDB/genres");
 		}
-	}, [selected]);
 
-	const handleClick = () => {
 		setSelected((e) => !e);
-
-		if (!selected) {
-			setSelectedGenres([...selectedGenres, id]);
-		} else
-			setSelectedGenres(selectedGenres.filter((genre) => genre !== id));
 	};
 
 	return (
