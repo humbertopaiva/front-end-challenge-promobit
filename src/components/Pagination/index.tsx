@@ -1,8 +1,10 @@
-import { useMoviesDB } from "../../hooks/MoviesDB";
-import { useEffect, useState } from "react";
 import { HiOutlineChevronRight, HiOutlineChevronLeft } from "react-icons/hi";
+import { useEffect, useState } from "react";
+import { useMoviesDB } from "../../hooks/MoviesDB";
+import { useRouter } from "next/router";
 import Wraper from "../Wraper";
 import styles from "./styles.module.scss";
+import Router from "next/router";
 
 const Pagination = () => {
 	const { totalPages, setCurrentPage, currentPage, selectedGenres } =
@@ -11,21 +13,30 @@ const Pagination = () => {
 	const [lastIndex, setLastIndex] = useState(offset);
 	const [firstIndex, setFirstIndex] = useState(currentPage);
 	const [pages, setPages] = useState<number[]>([]);
+	const router = useRouter();
+
+	useEffect(() => {
+		const pageIndex = router.query.pageIndex;
+		if (pageIndex) {
+			setCurrentPage(+pageIndex);
+		}
+	}, []);
 
 	const changePage = (page: number) => {
 		setCurrentPage(page);
+		Router.push(`/page/${page}`);
 	};
 
 	const forwardPagination = () => {
-		setCurrentPage(lastIndex + 1);
+		changePage(lastIndex + 1);
 	};
 
 	const backwardPagination = () => {
-		setCurrentPage(firstIndex - 1);
+		changePage(firstIndex - 1);
 	};
 
 	const goToLastPage = () => {
-		setCurrentPage(lastIndex);
+		changePage(lastIndex);
 	};
 
 	useEffect(() => {

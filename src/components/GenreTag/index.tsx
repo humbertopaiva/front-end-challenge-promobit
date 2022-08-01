@@ -11,7 +11,6 @@ const GenreTag = ({ name, id }: Genre) => {
 		const storage = localStorage.getItem("@TMDB/genres");
 		if (storage) {
 			const genres = JSON.parse(storage);
-			console.log(genres);
 
 			if (genres.includes(id)) {
 				setSelected(true);
@@ -42,7 +41,7 @@ const GenreTag = ({ name, id }: Genre) => {
 			setSelectedGenres(genresList.filter((genreId) => genreId !== id));
 		}
 
-		if (selected && genres.length === 0) {
+		if (selected && genresList.length === 0) {
 			setSelectedGenres([]);
 			localStorage.removeItem("@TMDB/genres");
 		}

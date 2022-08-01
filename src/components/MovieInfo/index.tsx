@@ -45,7 +45,7 @@ const MovieInfo = ({ movie }: { movie: Movie }) => {
 
 				<div className={styles.movieInfos_texts}>
 					<h1>
-						{title} ({release_date && getYear(release_date)}
+						{title} ({release_date && getYear(release_date)})
 					</h1>
 					{certification && genres && release_date && runtime && (
 						<MovieRelease
@@ -56,7 +56,7 @@ const MovieInfo = ({ movie }: { movie: Movie }) => {
 						/>
 					)}
 					<div className={styles.circularProgress}>
-						{vote_average && (
+						{vote_average && vote_average !== 0 && (
 							<CircularProgressbar average={+vote_average} />
 						)}
 					</div>

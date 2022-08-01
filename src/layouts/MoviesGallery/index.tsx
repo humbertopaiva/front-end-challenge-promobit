@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
 import { useMoviesDB } from "../../hooks/MoviesDB";
 import { TbMovieOff } from "react-icons/tb";
+import { useRouter } from "next/router";
 import MovieCard from "../../components/MovieCard";
 import Wraper from "../../components/Wraper";
 import styles from "./styles.module.scss";
+import moviedbApi from "../../services/moviedbApi";
 
-const MoviesGallery = ({ moviesList }: { moviesList: Movie[] }) => {
-	const { selectedGenres } = useMoviesDB();
+const MoviesGallery = () => {
+	const { selectedGenres, setTotalPages } = useMoviesDB();
 
-	const [filteredMovies, setFilteredMovies] = useState<Movie[]>(moviesList);
+	const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
 	const [emptySearch, setEmptySearch] = useState(false);
+	const [movies, setMovies] = useState<Movie[]>([]);
+	const router = useRouter();
+
+	useEffect(() => {
+		const pageIndex = router.query.pageIndex || 1;
+		moviedbApi.getMoviesList(+pageIndex).then((res) => {
+			setTotalPages(res.data.total_pages);
+			setMovies(res.data.results);
+		});
+	}, [router.query.pageIndex]);
+
+	useEffect(() => {
+		createGallery();
+	}, [movies, selectedGenres]);
 
 	const createGallery = () => {
 		const storage = localStorage.getItem("@TMDB/genres");
 		if (storage) {
 			const genres = JSON.parse(storage);
 			if (genres) {
-				const filtered = moviesList.filter((movie) => {
+				const filtered = movies.filter((movie) => {
 					const hasMovie = movie.genre_ids?.map((genre) => {
 						return genres.includes(genre);
 					});
@@ -30,19 +46,13 @@ const MoviesGallery = ({ moviesList }: { moviesList: Movie[] }) => {
 					setEmptySearch(false);
 				}
 
-				if (genres.length === 0) setFilteredMovies(moviesList);
+				if (genres.length === 0) setFilteredMovies(movies);
 
 				if (filtered.length === 0 && genres.length > 0)
 					setEmptySearch(true);
 			}
 		}
 	};
-
-	//FILTRA A LISTA DE FILMES DE ACORDO COM OS GENEROS ESCOLHIDOS
-
-	useEffect(() => {
-		createGallery();
-	}, [selectedGenres]);
 
 	return (
 		<main className={styles.content}>

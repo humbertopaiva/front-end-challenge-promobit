@@ -1,13 +1,13 @@
 .content {
 	margin: 2rem 0;
-	min-height: 500px;
+	min-height: 720px;
 
 	ul {
 		width: 100%;
 		display: grid;
 		grid-template-columns: repeat(auto-fill, 176px);
 		justify-content: center;
-		gap: 32px;
+		gap: 24px;
 	}
 }
 

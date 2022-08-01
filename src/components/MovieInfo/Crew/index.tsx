@@ -1,7 +1,6 @@
 import styles from "../styles.module.scss";
 
 const Crew = ({ cast }: { cast: Cast }) => {
-	console.log("KARTEE", cast);
 	return (
 		<ul className={styles.crewContent}>
 			{cast.crew &&
