@@ -9,23 +9,11 @@ import moviedbApi from "../../services/moviedbApi";
 
 const MoviesGallery = () => {
 	const { selectedGenres, setTotalPages } = useMoviesDB();
-
 	const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
 	const [emptySearch, setEmptySearch] = useState(false);
 	const [movies, setMovies] = useState<Movie[]>([]);
+	const { currentPage } = useMoviesDB();
 	const router = useRouter();
-
-	useEffect(() => {
-		const pageIndex = router.query.pageIndex || 1;
-		moviedbApi.getMoviesList(+pageIndex).then((res) => {
-			setTotalPages(res.data.total_pages);
-			setMovies(res.data.results);
-		});
-	}, [router.query.pageIndex]);
-
-	useEffect(() => {
-		createGallery();
-	}, [movies, selectedGenres]);
 
 	const createGallery = () => {
 		const storage = localStorage.getItem("@TMDB/genres");
@@ -53,6 +41,18 @@ const MoviesGallery = () => {
 			}
 		}
 	};
+
+	useEffect(() => {
+		const pageIndex = router.query.index || 1;
+		moviedbApi.getMoviesList(+pageIndex).then((res) => {
+			setTotalPages(res.data.total_pages);
+			setMovies(res.data.results);
+		});
+	}, [router.query.index]);
+
+	useEffect(() => {
+		createGallery();
+	}, [movies, selectedGenres]);
 
 	return (
 		<main className={styles.content}>

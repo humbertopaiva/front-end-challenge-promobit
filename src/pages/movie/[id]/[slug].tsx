@@ -5,6 +5,7 @@ import MovieCast from "../../../components/MovieCast";
 import MovieInfo from "../../../components/MovieInfo";
 import moviedbApi from "../../../services/moviedbApi";
 import "react-circular-progressbar/dist/styles.css";
+import { useRouter } from "next/router";
 
 type MovieProps = {
 	movie: Movie;
@@ -14,6 +15,12 @@ type MovieProps = {
 };
 
 const Movie = ({ movie, cast, similarMovies, trailers }: MovieProps) => {
+	const router = useRouter();
+	console.log("Entrou no movie");
+	if (router.isFallback) {
+		return <h1>Carregando</h1>;
+	}
+
 	return (
 		<>
 			{movie && cast && trailers && similarMovies && (
@@ -68,7 +75,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 	return {
 		paths,
-		fallback: "blocking",
+		fallback: true,
 	};
 };
 

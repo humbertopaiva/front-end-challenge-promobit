@@ -7,8 +7,7 @@ import styles from "./styles.module.scss";
 import Router from "next/router";
 
 const Pagination = () => {
-	const { totalPages, setCurrentPage, currentPage, selectedGenres } =
-		useMoviesDB();
+	const { setCurrentPage, currentPage, selectedGenres } = useMoviesDB();
 	const offset = 5;
 	const [lastIndex, setLastIndex] = useState(offset);
 	const [firstIndex, setFirstIndex] = useState(currentPage);
@@ -16,10 +15,8 @@ const Pagination = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const pageIndex = router.query.pageIndex;
-		if (pageIndex) {
-			setCurrentPage(+pageIndex);
-		}
+		const { index } = router.query;
+		typeof index === "string" && setCurrentPage(+index);
 	}, []);
 
 	const changePage = (page: number) => {
