@@ -47,6 +47,7 @@ const MoviesGallery = () => {
 		moviedbApi.getMoviesList(+pageIndex).then((res) => {
 			setTotalPages(res.data.total_pages);
 			setMovies(res.data.results);
+			setFilteredMovies(res.data.results);
 		});
 	}, [router.query.index]);
 
